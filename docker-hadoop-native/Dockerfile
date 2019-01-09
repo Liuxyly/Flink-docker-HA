@@ -2,7 +2,7 @@
 #
 # docker build -t sequenceiq/hadoop-nativelibs .
 
-FROM tianon/centos:6.5
+FROM openshift/base-centos7
 
 ARG HADOOP_VERSION=2.8.5
 ARG PROTOBUF_VERSION=3.6.1
