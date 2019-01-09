@@ -1,7 +1,6 @@
-# Create an image to build Hadoop nativelibs
+# Create an image to build Hadoop native builder
 #
-# docker build -t sequenceiq/hadoop-nativelibs .
-
+# docker build -t liuxyly/hadoop-native-builder .
 FROM maven:3-jdk-8-slim
 
 ENV HADOOP_VERSION 2.8.5
@@ -11,11 +10,14 @@ ENV LD_RUN_PATH /usr/local/lib
 
 USER root
 
-# install hadoop nativelins tools, install dev tools, devel tools
+# install hadoop nativelins tools
 RUN set -x \
     && apt-get update -y && \
-    apt-get install -y curl openssh-server rsync bunzip2 unzip \
-        gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel
+    apt-get install -y openssh-server rsync bunzip2 unzip \
+        git-core gnupg flex bison gperf build-essential \
+        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+        libgl1-mesa-dev libxml2-utils xsltproc unzip openssl-devel
 
 # install protoc
 RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
@@ -31,9 +33,11 @@ RUN set -x \
 
 # clean image
 RUN set -x \
-    # yum groupremove "Development Tools" -y && \
-    && apt-get uninstall -y curl openssh-server rsync bunzip2 unzip \
-        gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel && \
+    && apt-get uninstall -y openssh-server rsync bunzip2 unzip \
+        git-core gnupg flex bison gperf build-essential \
+        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+        libgl1-mesa-dev libxml2-utils xsltproc unzip openssl-devel && \
     rm -rf /tmp/protobuf-all-$PROTOBUF_VERSION
 
 # tar to stdout
