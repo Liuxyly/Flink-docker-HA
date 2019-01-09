@@ -11,7 +11,7 @@ USER root
 
 # install dev tools
 RUN set -x \
-    && rpm -rebuilddb && \
+    && rpm --rebuilddb && \
     yum update -y && \
     yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
 
