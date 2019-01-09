@@ -2,76 +2,41 @@
 #
 # docker build -t sequenceiq/hadoop-nativelibs .
 
-FROM openshift/base-centos7
+FROM maven:3-jdk-8-slim
 
-ARG HADOOP_VERSION=2.8.5
-ARG PROTOBUF_VERSION=3.6.1
+ENV HADOOP_VERSION 2.8.5
+ENV PROTOBUF_REVISION 3.6.1
+ENV LD_LIBRARY_PATH /usr/local/lib
+ENV LD_RUN_PATH /usr/local/lib
 
 USER root
 
-# install dev tools
+# install hadoop nativelins tools, install dev tools, devel tools
 RUN set -x \
     && rpm --rebuilddb && \
     yum update -y && \
-    yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
-
-# install hadoop nativelins tools
-RUN set -x \
-    && rpm --rebuilddb && \
-    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk
-
-# passwordless ssh
-# RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
-# RUN ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
-# RUN ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa
-# RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-
-# java
-# RUN set -x \
-#     && curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'   -C /tmp/ && \
-#     rpm -i /tmp/jdk-8u191-linux-x64.rpm && \
-#     rm /tmp/jdk-8u191-linux-x64.rpm
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-0.el6_10.x86_64
-ENV CLASSPATH .:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-ENV PATH $PATH:$JAVA_HOME/bin
-
-# devel tools
-RUN set -x \
-    && rpm --rebuilddb && \
     yum groupinstall "Development Tools" -y && \
-    yum install -y cmake zlib-devel openssl-devel
+    yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 unzip \
+        gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel
 
-# maven
-ENV M2_VER=3.2.5
-RUN curl http://www.eu.apache.org/dist/maven/maven-3/${M2_VER}/binaries/apache-maven-${M2_VER}-bin.tar.gz|tar xz  -C /usr/share
-ENV M2_HOME /usr/share/apache-maven-${M2_VER}
-ENV PATH $PATH:$M2_HOME/bin
+# install protoc
+RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
+  && unzip protoc-${PROTOBUF_REVISION}-linux-x86_64.zip -d ./usr/local \
+  && chmod +x /usr/local/bin/protoc \
+  && chmod -R 755 /usr/local/include/ \
+  && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
 
-# hadoop
-RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}-src.tar.gz | tar -xz -C /tmp/
-
-# protoc -ohhh
+# hadoop and build native libs
 RUN set -x \
-    && curl -L https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-all-${PROTOBUF_VERSION}.tar.gz | tar -xz -C /tmp && \
-    cd /tmp/protobuf-all-$PROTOBUF_VERSION && \
-    ls -la && \
-    ./configure && \
-    cd /tmp/protobuf-$PROTOBUF_VERSION && \
-    make && \
-    make install
-
-ENV LD_LIBRARY_PATH /usr/local/lib
-ENV export LD_RUN_PATH /usr/local/lib
-
-# build native libs
-RUN cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar
+    && curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}-src.tar.gz | tar -xz -C /tmp/ && \
+    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar
 
 # clean image
 RUN set -x \
     && rpm --rebuilddb && \
     yum groupremove "Development Tools" -y && \
-    yum remove -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 && \
-    yum remove -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake zlib-devel openssl-devel && \
+    yum remove -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 unzip \
+        gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel && \
     rm -rf /tmp/protobuf-all-$PROTOBUF_VERSION
 
 # tar to stdout
