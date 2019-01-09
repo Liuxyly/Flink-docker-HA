@@ -27,15 +27,18 @@ RUN set -x \
 # RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 # java
-RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
-RUN rpm -i jdk-8u191-linux-x64.rpm
-RUN rm jdk-8u191-linux-x64.rpm
+RUN set -x \
+    && curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'   -C /tmp/ && \
+    rpm -i /tmp/jdk-8u191-linux-x64.rpm && \
+    rm /tmp/jdk-8u191-linux-x64.rpm
 ENV JAVA_HOME /usr/java/default
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # devel tools
-RUN yum groupinstall "Development Tools" -y
-RUN yum install -y cmake zlib-devel openssl-devel
+RUN set -x \
+    && rpm --rebuilddb && \
+    yum groupinstall "Development Tools" -y && \
+    yum install -y cmake zlib-devel openssl-devel
 
 # maven
 ENV M2_VER=3.2.5
