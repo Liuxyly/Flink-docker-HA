@@ -13,11 +13,11 @@ USER root
 # install hadoop nativelins tools
 RUN set -x \
     && apt-get update -y && \
-    apt-get install -y openssh-server rsync bunzip2 unzip \
+    apt-get install -y openssh-server rsync \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip openssl-devel
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 # install protoc
 RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
@@ -33,11 +33,11 @@ RUN set -x \
 
 # clean image
 RUN set -x \
-    && apt-get uninstall -y openssh-server rsync bunzip2 unzip \
+    && apt-get uninstall -y openssh-server rsync unzip \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip openssl-devel && \
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev && \
     rm -rf /tmp/protobuf-all-$PROTOBUF_VERSION
 
 # tar to stdout
