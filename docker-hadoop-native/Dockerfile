@@ -20,11 +20,18 @@ RUN set -x \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 # install protoc
-RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
-  && unzip protoc-${PROTOBUF_REVISION}-linux-x86_64.zip -d ./usr/local \
-  && chmod +x /usr/local/bin/protoc \
-  && chmod -R 755 /usr/local/include/ \
-  && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
+# RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
+#   && unzip protoc-${PROTOBUF_REVISION}-linux-x86_64.zip -d ./usr/local \
+#   && chmod +x /usr/local/bin/protoc \
+#   && chmod -R 755 /usr/local/include/ \
+#   && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
+
+RUN set -x \
+    curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/${PROTOBUF_REVISION}/protobuf-${PROTOBUF_REVISION}.tar.bz2 | tar -xz -C /tmp/ && \
+    cd /tmp/protobuf-${PROTOBUF_REVISION} && \
+    ./configure && \
+    make && \
+    make install
 
 # hadoop and build native libs
 RUN set -x \
@@ -43,7 +50,8 @@ RUN set -x \
 RUN set -x \
     && mkdir /output && \
     cp /tmp/hadoop-$HADOOP_VERSION-src/hadoop-dist/target/hadoop-$HADOOP_VERSION/lib/native /output && \
-    rm -rf /tmp/*
+    rm -rf /tmp/* && \
+    rm -rf /root/*
 
 CMD tar -cv -C /output .
 
