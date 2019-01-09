@@ -3,13 +3,16 @@
 # docker build -t sequenceiq/hadoop-nativelibs .
 
 FROM tianon/centos:6.5
+
 ARG HADOOP_VERSION=2.8.5
 ARG PROTOBUF_VERSION=3.6.1
 
 USER root
 
 # install dev tools
-RUN yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
+RUN set -x \
+    && yum update && \
+    yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
 
 # install hadoop nativelins tools
 RUN yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake
