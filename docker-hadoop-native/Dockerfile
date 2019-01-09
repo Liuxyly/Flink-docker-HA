@@ -66,7 +66,8 @@ RUN cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests 
 
 # clean image
 RUN set -x \
-    && yum groupremove "Development Tools" -y && \
+    && rpm --rebuilddb && \
+    yum groupremove "Development Tools" -y && \
     yum remove -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 && \
     yum remove -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake zlib-devel openssl-devel && \
     rm -rf /tmp/protobuf-all-$PROTOBUF_VERSION
