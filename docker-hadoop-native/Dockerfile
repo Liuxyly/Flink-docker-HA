@@ -18,8 +18,7 @@ RUN set -x \
 # install hadoop nativelins tools
 RUN set -x \
     && rpm --rebuilddb && \
-    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk && \
-    ls -la /usr/lib/jvm/
+    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk
 
 # passwordless ssh
 # RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
@@ -55,6 +54,7 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}
 RUN set -x \
     && curl -L https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-all-${PROTOBUF_VERSION}.tar.gz | tar -xz -C /tmp && \
     cd /tmp/protobuf-all-$PROTOBUF_VERSION && \
+    ls -la && \
     ./configure && \
     cd /tmp/protobuf-$PROTOBUF_VERSION && \
     make && \
