@@ -11,7 +11,7 @@ USER root
 
 # install dev tools
 RUN set -x \
-    && yum update && \
+    && yum update -y && \
     yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
 
 # install hadoop nativelins tools
