@@ -16,7 +16,9 @@ RUN set -x \
     yum install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2
 
 # install hadoop nativelins tools
-RUN yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake
+RUN set -x \
+    && rpm --rebuilddb && \
+    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake
 
 # passwordless ssh
 # RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
