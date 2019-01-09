@@ -14,7 +14,7 @@ USER root
 # install hadoop nativelins tools, install dev tools, devel tools
 RUN set -x \
     && apt-get update -y && \
-    apt-get install -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 unzip \
+    apt-get install -y curl openssh-server rsync bunzip2 unzip \
         gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel
 
 # install protoc
@@ -32,7 +32,7 @@ RUN set -x \
 # clean image
 RUN set -x \
     # yum groupremove "Development Tools" -y && \
-    apt-get uninstall -y curl which tar sudo openssh-server openssh-clients rsync bunzip2 unzip \
+    && apt-get uninstall -y curl openssh-server rsync bunzip2 unzip \
         gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk zlib-devel openssl-devel && \
     rm -rf /tmp/protobuf-all-$PROTOBUF_VERSION
 
