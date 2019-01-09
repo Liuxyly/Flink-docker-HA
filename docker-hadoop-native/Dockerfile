@@ -32,7 +32,7 @@ RUN set -x \
 #     && curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'   -C /tmp/ && \
 #     rpm -i /tmp/jdk-8u191-linux-x64.rpm && \
 #     rm /tmp/jdk-8u191-linux-x64.rpm
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0*
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-0.el6_10.x86_64
 ENV CLASSPATH .:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 ENV PATH $PATH:$JAVA_HOME/bin
 
