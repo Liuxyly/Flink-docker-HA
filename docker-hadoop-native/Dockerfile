@@ -18,7 +18,8 @@ RUN set -x \
 # install hadoop nativelins tools
 RUN set -x \
     && rpm --rebuilddb && \
-    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake
+    yum install -y gcc gcc-c++ autoconf automake libtool zlib-devel cmake java-1.8.0-openjdk && \
+    ls -la /usr/lib/jvm/
 
 # passwordless ssh
 # RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
@@ -27,11 +28,12 @@ RUN set -x \
 # RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 # java
-RUN set -x \
-    && curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'   -C /tmp/ && \
-    rpm -i /tmp/jdk-8u191-linux-x64.rpm && \
-    rm /tmp/jdk-8u191-linux-x64.rpm
-ENV JAVA_HOME /usr/java/default
+# RUN set -x \
+#     && curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'   -C /tmp/ && \
+#     rpm -i /tmp/jdk-8u191-linux-x64.rpm && \
+#     rm /tmp/jdk-8u191-linux-x64.rpm
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0*
+ENV CLASSPATH .:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # devel tools
