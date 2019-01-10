@@ -17,7 +17,8 @@ RUN set -x \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev snappy libsnappy-dev bzip2 libbz2-dev \
+        libjansson-dev fuse libfuse-dev
 
 RUN set -x \
   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/include' $(find / -name FindJNI.cmake) \
@@ -43,7 +44,8 @@ RUN set -x \
 # hadoop and build native libs
 RUN set -x \
     && curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}-src.tar.gz | tar -xz -C /tmp/ && \
-    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar
+    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar \
+        -Dsnappy.lib -Drequire.snappy -Dbundle.snappy -Drequire.openssl -Dbundle.openssl
 
 # clean image
 RUN set -x \
@@ -51,7 +53,8 @@ RUN set -x \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev snappy libsnappy-dev bzip2 libbz2-dev \
+        libjansson-dev fuse libfuse-dev
 
 # tar to stdout
 RUN set -x \
