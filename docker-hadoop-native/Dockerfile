@@ -12,16 +12,12 @@ USER root
 
 # install hadoop nativelins tools
 RUN set -x \
-    && apt-get update -y \
-    && apt-get install -y python-software-properties software-properties-common \
-    && add-apt-repository ppa:snappy-dev/tools \
     && apt-get update -y && \
     apt-get install -y openssh-server rsync \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev snappy-tools bzr snapcraft libsnappy-dev bzip2 libbz2-dev \
-        libjansson-dev fuse libfuse-dev
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev
 
 RUN set -x \
   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/include' $(find / -name FindJNI.cmake) \
@@ -56,8 +52,7 @@ RUN set -x \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev snappy-tools bzr snapcraft libsnappy-dev bzip2 libbz2-dev \
-        libjansson-dev fuse libfuse-dev python-software-properties
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev
 
 # tar to stdout
 RUN set -x \
