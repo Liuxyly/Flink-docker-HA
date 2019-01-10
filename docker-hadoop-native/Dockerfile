@@ -27,8 +27,10 @@ RUN set -x \
 #   && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
 
 RUN set -x \
-    && curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_REVISION}/protobuf-${PROTOBUF_REVISION}.tar.gz | tar -xz - -C /tmp/ && \
-    cd /tmp/protobuf-${PROTOBUF_REVISION} && \
+    && cd /tmp/ && \
+    curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_REVISION}/protobuf-${PROTOBUF_REVISION}.tar.gz && \
+    tar -xvf protobuf-${PROTOBUF_REVISION}.tar.gz && \
+    cd protobuf-${PROTOBUF_REVISION} && \
     ./configure && \
     make && \
     make install
