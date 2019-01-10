@@ -20,8 +20,8 @@ RUN set -x \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 RUN set -x \
-  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a ${JAVA_HOME}\/include' $(find / -name FindJNI.cmake) \
-  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/jre\/lib\/{libarch}/a ${JAVA_HOME}\/\/jre\/lib\/{libarch}' $(find / -name FindJNI.cmake) \
+  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a ${_JAVA_HOME}\/include' $(find / -name FindJNI.cmake) \
+  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/jre\/lib\/{libarch}/a ${_JAVA_HOME}\/jre\/lib\/{libarch}' $(find / -name FindJNI.cmake) \
   && cat $(find / -name FindJNI.cmake)
 
 # install protoc
