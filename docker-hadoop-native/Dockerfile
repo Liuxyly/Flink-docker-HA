@@ -20,9 +20,8 @@ RUN set -x \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 RUN set -x \
-  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a $(docker-java-home)\/include' $(find / -name FindJNI.cmake) \
-  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/jre\/lib\/{libarch}/a $(docker-java-home)/jre\/lib\/{libarch}' $(find / -name FindJNI.cmake) \
-  && cat $(find / -name FindJNI.cmake)
+  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/include' $(find / -name FindJNI.cmake) \
+  && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/jre\/lib\/{libarch}/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/jre\/lib\/{libarch}' $(find / -name FindJNI.cmake)
 
 # install protoc
 # RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
