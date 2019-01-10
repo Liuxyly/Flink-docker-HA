@@ -13,7 +13,7 @@ USER root
 # install hadoop nativelins tools
 RUN set -x \
     && apt-get update -y \
-    && apt-get install -y python-software-properties \
+    && apt-get install -y python-software-properties software-properties-common \
     && add-apt-repository ppa:snappy-dev/tools \
     && apt-get update -y && \
     apt-get install -y openssh-server rsync \
