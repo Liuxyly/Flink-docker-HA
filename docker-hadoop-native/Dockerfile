@@ -15,8 +15,8 @@ RUN set -x \
     && apt-get update -y && \
     apt-get install -y openssh-server rsync \
         git-core gnupg flex bison gperf build-essential \
-        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
-        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
+        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 # install protoc
@@ -29,8 +29,9 @@ RUN set -x \
 RUN set -x \
     && cd /tmp/ && \
     curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_REVISION}/protobuf-${PROTOBUF_REVISION}.tar.gz && \
-    tar -xvf protobuf-${PROTOBUF_REVISION}.tar.gz && \
+    tar -xf protobuf-${PROTOBUF_REVISION}.tar.gz && \
     cd protobuf-${PROTOBUF_REVISION} && \
+    ./autogen.sh && \
     ./configure && \
     make && \
     make install
@@ -44,8 +45,8 @@ RUN set -x \
 RUN set -x \
     && apt-get uninstall -y openssh-server rsync unzip \
         git-core gnupg flex bison gperf build-essential \
-        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
-        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
+        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 # tar to stdout
