@@ -1,7 +1,7 @@
 # Create an image to build Hadoop native builder
 #
 # docker build -t liuxyly/hadoop-native-builder .
-FROM maven:3-jdk-8-slim
+FROM maven:3-jdk-8
 
 ENV HADOOP_VERSION 2.8.5
 ENV PROTOBUF_REVISION 2.5.0
