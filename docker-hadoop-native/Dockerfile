@@ -20,7 +20,8 @@ RUN set -x \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 RUN set -x \
-  && ls /docker-java-home/jre \
+  && ls $(docker-java-home) \
+  && find $(docker-java-home) -name jni.h \
   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/docker-java-home\/jre\/include' $(find / -name FindJNI.cmake) \
   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/jre\/lib\/{libarch}/a \/docker-java-home\/jre\/jre\/lib\/{libarch}' $(find / -name FindJNI.cmake) \
   && cat $(find / -name FindJNI.cmake)
