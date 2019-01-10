@@ -20,9 +20,9 @@ RUN set -x \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
 RUN set -x \
-  && cat $(find / -name jawt.h) \
-  && $val = eval 'find / -name jawt.h' \
-  && sed -i '26i JAVA_AWT_INCLUDE_PATH = ' + val $(find / -name FindJNI.cmake)
+  && sed '/\/usr\/lib\/jvm\/java-8-openjdk-\{libarch\}\/include/a ${JAVA_HOME}\/include' $(find / -name FindJNI.cmake) > $(find / -name FindJNI.cmake) \
+  && sed '/\/usr\/lib\/jvm\/java-8-openjdk-\{libarch\}\/jre\/lib\/\{libarch\}/a ${JAVA_HOME}\/\/jre\/lib\/\{libarch\}' $(find / -name FindJNI.cmake) > $(find / -name FindJNI.cmake) \
+  && cat $(find / -name FindJNI.cmake)
 
 # install protoc
 # RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
