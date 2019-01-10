@@ -43,8 +43,7 @@ RUN set -x \
 # hadoop and build native libs
 RUN set -x \
     && curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}-src.tar.gz | tar -xz -C /tmp/ && \
-    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar \
-        -Dsnappy.lib -Drequire.snappy -Dbundle.snappy -Drequire.openssl -Dbundle.openssl
+    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar
 
 # clean image
 RUN set -x \
