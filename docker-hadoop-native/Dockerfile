@@ -19,6 +19,9 @@ RUN set -x \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl-dev
 
+RUN set -x \
+  && cat $(find / -name FindJNI.cmake)
+
 # install protoc
 # RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
 #   && unzip protoc-${PROTOBUF_REVISION}-linux-x86_64.zip -d ./usr/local \
