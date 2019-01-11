@@ -57,7 +57,7 @@ RUN set -x \
 # tar to stdout
 RUN set -x \
     && mkdir /output && \
-    cp /tmp/hadoop-$HADOOP_VERSION-src/hadoop-dist/target/hadoop-$HADOOP_VERSION/lib/native /output && \
+    cp -r /tmp/hadoop-$HADOOP_VERSION-src/hadoop-dist/target/hadoop-$HADOOP_VERSION/lib/native/* /output/ && \
     rm -rf /tmp/* && \
     rm -rf /root/*
 
