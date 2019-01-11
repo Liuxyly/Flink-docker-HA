@@ -43,7 +43,10 @@ RUN set -x \
 # hadoop and build native libs
 RUN set -x \
     && curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}-src.tar.gz | tar -xz -C /tmp/ && \
-    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar
+    cd /tmp/hadoop-$HADOOP_VERSION-src && mvn package -Pdist,native -DskipTests -Dtar && \
+    mkdir /output && \
+    cp -r /tmp/hadoop-$HADOOP_VERSION-src/hadoop-dist/target/hadoop-$HADOOP_VERSION/lib/native/* /output/ && \
+    rm -rf /tmp/hadoop-$HADOOP_VERSION-src
 
 # clean image
 RUN set -x \
@@ -52,15 +55,10 @@ RUN set -x \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
         libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev \
-    && apt-get clean -y
+    && apt-get clean -y \
+    && rm -rf /root/*
 
 # tar to stdout
-RUN set -x \
-    && mkdir /output && \
-    cp -r /tmp/hadoop-$HADOOP_VERSION-src/hadoop-dist/target/hadoop-$HADOOP_VERSION/lib/native/* /output/ && \
-    rm -rf /tmp/* && \
-    rm -rf /root/*
-
 CMD tar -cv -C /output .
 
 # docker run --rm  sequenceiq/hadoop-nativelibs > x.tar
