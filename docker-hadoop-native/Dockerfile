@@ -47,11 +47,12 @@ RUN set -x \
 
 # clean image
 RUN set -x \
-    && apt-get uninstall -y openssh-server rsync unzip \
+    && apt-get –purge remove -y openssh-server rsync unzip \
         git-core gnupg flex bison gperf build-essential \
         zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
         lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev
+        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev \
+    && apt-get clean -y
 
 # tar to stdout
 RUN set -x \
