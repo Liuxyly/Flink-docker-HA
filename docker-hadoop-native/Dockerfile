@@ -15,7 +15,7 @@ RUN set -x \
     && apk update && \
     apk add --no-cache flex bison gperf alpine-sdk \
         curl zlib-dev build-base autoconf automake libtool ccache cmake \
-        libgl1-mesa-dev libxml2-dev openssl-dev
+        libxml2-dev openssl-dev
 
 # RUN set -x \
 #   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/include' $(find / -name FindJNI.cmake) \
@@ -50,7 +50,7 @@ RUN set -x \
 RUN set -x \
     && apk del flex bison gperf alpine-sdk \
         curl zlib-dev build-base autoconf automake libtool ccache cmake \
-        libgl1-mesa-dev libxml2-dev openssl-dev \
+        libxml2-dev openssl-dev \
     && rm -rf /root/*
 
 # tar to stdout
