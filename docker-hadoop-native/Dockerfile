@@ -14,7 +14,7 @@ USER root
 RUN set -x \
     && apk update && \
     apk add --no-cache flex bison gperf alpine-sdk \
-        curl zlib-dev build-base autoconf automake libtool ccache cmake \
+        subversion curl zlib-dev build-base autoconf automake libtool ccache cmake \
         libxml2-dev openssl-dev
 
 # RUN set -x \
@@ -49,7 +49,7 @@ RUN set -x \
 # clean image
 RUN set -x \
     && apk del flex bison gperf alpine-sdk \
-        curl zlib-dev build-base autoconf automake libtool ccache cmake \
+        subversion curl zlib-dev build-base autoconf automake libtool ccache cmake \
         libxml2-dev openssl-dev \
     && rm -rf /root/*
 
