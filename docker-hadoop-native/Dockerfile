@@ -12,8 +12,8 @@ USER root
 
 # install hadoop nativelins tools
 RUN set -x \
-    && apk update -y && \
-    apk add -y --no-cache flex bison gperf alpine-sdk \
+    && apk update && \
+    apk add --no-cache flex bison gperf alpine-sdk \
         curl zlib-dev build-base autoconf automake libtool ccache cmake \
         libgl1-mesa-dev libxml2-dev openssl-dev
 
@@ -48,7 +48,7 @@ RUN set -x \
 
 # clean image
 RUN set -x \
-    && apk del -y flex bison gperf alpine-sdk \
+    && apk del flex bison gperf alpine-sdk \
         curl zlib-dev build-base autoconf automake libtool ccache cmake \
         libgl1-mesa-dev libxml2-dev openssl-dev \
     && rm -rf /root/*
