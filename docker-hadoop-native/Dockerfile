@@ -1,7 +1,7 @@
 # Create an image to build Hadoop native builder
 #
 # docker build -t liuxyly/hadoop-native-builder .
-FROM maven:3-jdk-8
+FROM maven:3-jdk-8-alpine
 
 ENV HADOOP_VERSION 2.8.5
 ENV PROTOBUF_REVISION 2.5.0
@@ -12,12 +12,10 @@ USER root
 
 # install hadoop nativelins tools
 RUN set -x \
-    && apt-get update -y && \
-    apt-get install -y openssh-server rsync \
-        git-core gnupg flex bison gperf build-essential \
-        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
-        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev
+    && apk update -y && \
+    apk add -y --no-cache flex bison gperf alpine-sdk \
+        curl zlib-dev build-base autoconf automake libtool ccache cmake \
+        libgl1-mesa-dev libxml2-dev openssl-dev
 
 # RUN set -x \
 #   && sed -i '/\/usr\/lib\/jvm\/java-8-openjdk-{libarch}\/include/a \/usr\/lib\/jvm\/java-8-openjdk-amd64\/include' $(find / -name FindJNI.cmake) \
@@ -50,12 +48,9 @@ RUN set -x \
 
 # clean image
 RUN set -x \
-    && apt-get remove --purge -y openssh-server rsync unzip \
-        git-core gnupg flex bison gperf build-essential \
-        zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool pkg-config \
-        lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache cmake \
-        libgl1-mesa-dev libxml2-utils xsltproc unzip libssl1.0-dev \
-    && apt-get clean -y \
+    && apk del -y flex bison gperf alpine-sdk \
+        curl zlib-dev build-base autoconf automake libtool ccache cmake \
+        libgl1-mesa-dev libxml2-dev openssl-dev \
     && rm -rf /root/*
 
 # tar to stdout
