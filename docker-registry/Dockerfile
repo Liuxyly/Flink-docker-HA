@@ -11,6 +11,8 @@ EXPOSE 5000
 
 COPY ./files/docker-entrypoint.sh /entrypoint.sh
 
+USER root
+
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
