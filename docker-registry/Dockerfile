@@ -13,8 +13,3 @@ COPY ./files/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/etc/docker/registry/config.yml"]
-
-RUN set -x && \
-    docker pull busybox && \
-    docker tag busybox 127.0.0.1:5000/busybox && \
-    docker push 127.0.0.1:5000/busybox
