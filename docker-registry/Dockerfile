@@ -1,7 +1,7 @@
-FROM docker:18
+FROM docker:edge-dind
 
 RUN set -ex \
-    && apk add --no-cache apache2-utils
+    && apk add --no-cache apache2-utils git openssh-client
 
 COPY ./files/registry /bin/registry
 COPY ./files/config-example.yml /etc/docker/registry/config.yml
