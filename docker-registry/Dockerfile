@@ -12,6 +12,9 @@ RUN mkdir -p /var/lib/registry
 EXPOSE 5000
 
 COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod 777 /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/etc/docker/registry/config.yml"]
