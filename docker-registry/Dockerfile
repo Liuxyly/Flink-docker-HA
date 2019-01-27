@@ -10,6 +10,9 @@ VOLUME ["/var/lib/registry"]
 EXPOSE 5000
 
 COPY ./files/docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/etc/docker/registry/config.yml"]
