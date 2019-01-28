@@ -15,6 +15,8 @@ COPY docker-entrypoint.sh /entrypoint.sh
 
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
+RUN ["chmod", "+x", "/bin/registry"]
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/etc/docker/registry/config.yml"]
