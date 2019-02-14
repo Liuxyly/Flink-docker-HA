@@ -16,4 +16,6 @@ RUN \
   cd .. && \
   rm -Rf psptoolchain
 
+RUN echo 'Hello World!!!'
+
 WORKDIR /build
